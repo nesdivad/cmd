@@ -7,6 +7,16 @@ fn readJsonFile(allocator: std.mem.Allocator, path: []u8) !std.json.Parsed(Value
     return std.json.parseFromSlice(Value, allocator, file, .{ .allocate = .alloc_always, .ignore_unknown_fields = true });
 }
 
+fn writeToFile(value: Value, name: []u8) !void {
+    var string = std.ArrayList(u8).init(std.heap.page_allocator);
+    try std.json.stringify(value, .{ .whitespace = .indent_4 }, string.writer());
+    var file = try std.fs.cwd().createFile(name, .{ .read = true });
+    try file.writeAll(string.items);
+    for (string.items) |item| {
+        std.debug.print("{c}", .{item});
+    }
+}
+
 pub fn main() !void {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     const allocator = gpa.allocator();
@@ -18,13 +28,12 @@ pub fn main() !void {
     defer std.process.argsFree(allocator, argv);
     const filepath1 = argv[1];
     const filepath2 = argv[2];
+    const filename = argv[3];
 
     const file1 = try readJsonFile(allocator, filepath1);
     defer file1.deinit();
 
     const file2 = try readJsonFile(allocator, filepath2);
     defer file2.deinit();
-
-    std.debug.print("file1: {?}\n", .{file1.value});
-    std.debug.print("file2: {?}\n", .{file2.value});
+    try writeToFile(file1.value, filename);
 }
