@@ -6,4 +6,4 @@ Nyttig å bruke ved deploy av applikasjoner til ulike miljøer.
 ## Hvordan kjøre programmet: 
 
 - `zig build run -- <filsti for orginal fil> <filsti for ny fil> <navn på ny fil>`
-- Output blir skrevet til ny fil
+- Output blir skrevet til ny fil, se eksempel i `out`-mappen.
