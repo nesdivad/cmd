@@ -2,3 +2,5 @@
 **/*/zig-out/
 **/stuff
 **/calculator
+redis/redis
+.DS_Store
