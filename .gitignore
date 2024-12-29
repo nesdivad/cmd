@@ -3,4 +3,5 @@
 **/stuff
 **/calculator
 redis/redis
+redis/database.aof
 .DS_Store

@@ -24,7 +24,7 @@ func main() {
 
 	aof.Read(func(value Value) {
 		command := strings.ToUpper(value.arr[0].bulk)
-		args := value.arr[:1]
+		args := value.arr[1:]
 
 		handler, ok := Handlers[command]
 		if !ok {
@@ -47,7 +47,7 @@ func main() {
 		resp := NewResp(conn)
 		value, err := resp.Read()
 		if err != nil {
-			fmt.Println("error reading from client: ", err.Error())
+			fmt.Println("Error while reading input: ", err)
 			return
 		}
 
@@ -62,7 +62,7 @@ func main() {
 		}
 
 		command := strings.ToUpper(value.arr[0].bulk)
-		args := value.arr[:1]
+		args := value.arr[1:]
 
 		writer := NewWriter(conn)
 
